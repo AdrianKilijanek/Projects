@@ -1,0 +1,21 @@
+﻿{
+  "selectedKubernetesProfile": null,
+  "solutionRunner": {
+    "selectedProfile": "Default",
+    "targetFrameworks": [],
+    "applicationsWithAlwaysBuild": [],
+    "applicationBatchStartStates": [
+      {
+        "profile": "Default",
+        "applicationOrFolder": "AKRek.Angular",
+        "value": 0
+      },
+      {
+        "profile": "Default",
+        "applicationOrFolder": "AKRek.HttpApi.Host",
+        "value": 0
+      }
+    ],
+    "folderBatchStartStates": []
+  }
+}

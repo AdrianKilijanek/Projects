@@ -1,0 +1,117 @@
+<div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col col-md-6">
+          <h5 class="card-title">
+            {{ '::Menu:Customers' | abpLocalization }}
+          </h5>
+        </div>
+        <div class="text-end col col-md-6"></div>
+
+        <div class="text-lg-end pt-2">
+            <button id="create" class="btn btn-primary" type="button" (click)="createCustomer()">
+              <i class="fa fa-plus me-1"></i>
+              <span>{{ "::NewCustomer" | abpLocalization }}</span>
+            </button>
+          </div>
+
+      </div>
+    </div>
+    <div class="card-body">
+      <ngx-datatable [rows]="customer.items" [count]="customer.totalCount" [list]="list" default>
+
+        <ngx-datatable-column
+        [name]="'::Actions' | abpLocalization"
+        [maxWidth]="150"
+        [sortable]="false"
+      >
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <div ngbDropdown container="body" class="d-inline-block">
+            <button
+              class="btn btn-primary btn-sm dropdown-toggle"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              ngbDropdownToggle
+            >
+              <i class="fa fa-cog me-1"></i>{{ '::Actions' | abpLocalization }}
+            </button>
+            <div ngbDropdownMenu>
+              <button ngbDropdownItem (click)="editCustomer(row.id)">
+                {{ '::Edit' | abpLocalization }}
+              </button>
+              <button ngbDropdownItem (click)="delete(row.id)">
+                {{ '::Delete' | abpLocalization }}
+            </button>
+            </div>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      
+
+        <ngx-datatable-column [name]="'::Name' | abpLocalization" prop="name"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Surname' | abpLocalization" prop="surname"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Email' | abpLocalization" prop="email"></ngx-datatable-column>
+        <ngx-datatable-column [name]="'::Ticket' | abpLocalization" prop="ticket">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{ '::Enum:TicketType.' + row.ticket | abpLocalization }}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'::PhoneNumber' | abpLocalization" prop="pnumber">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ (row.pnumber | number).replaceAll(',', '') }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+  <abp-modal [(visible)]="isModalOpen">
+    <ng-template #abpHeader>
+      <h3>{{ (selectedCustomer.id ? '::Edit' : '::NewCustomer' ) | abpLocalization }}</h3>
+    </ng-template>
+  
+    <ng-template #abpBody>
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <div class="mt-2">
+            <label for="customer-name">Name</label><span> * </span>
+            <input type="text" pattern="[a-zA-Z]*" id="customer-name" class="form-control" formControlName="name" autofocus />
+          </div>
+
+          <div class="mt-2">
+            <label for="customer-surname">Surname</label><span> * </span>
+            <input type="text" pattern="[a-zA-Z]*" id="cutomer-surname" class="form-control" formControlName="surname" autofocus />
+          </div>
+
+          <div class="mt-2">
+            <label for="customer-email">Email</label><span> * </span>
+            <input type="text" id="customer-email" class="form-control" formControlName="email" autofocus />
+
+          </div>
+          <div class="mt-2">
+            <label for="customer-pnumber">Phone number</label><span> * </span>
+            <input type="number" id="customer-pnumber" class="form-control" formControlName="pnumber" autofocus />
+          </div>
+          
+          <div class="mt-2">
+            <label for="ticket-type">Type</label><span> * </span>
+            <select class="form-control" id="ticket-type" formControlName="ticket">
+                <option [ngValue]="null">Select ticket type</option>
+                <option [ngValue]="ticket.value" *ngFor="let ticket of ticketTypes"> {{ '::Enum:TicketType.' + ticket.value | abpLocalization }}</option>
+            </select>
+            </div>
+
+        </form>
+      </ng-template>
+      
+  
+    <ng-template #abpFooter>
+      <button type="button" class="btn btn-secondary" abpClose>
+        {{ '::Close' | abpLocalization }}
+      </button>
+
+      <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">
+        <i class="fa fa-check mr-1"></i>
+        {{ '::Save' | abpLocalization }}
+  </button>
+    </ng-template>
+  </abp-modal>
+  

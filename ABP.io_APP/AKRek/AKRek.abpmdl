@@ -1,0 +1,89 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "3.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.Account": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.Identity": {
+      "version": "8.3.3",
+      "isInstalled": true
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "8.3.3",
+      "isInstalled": true
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "AKRek.Application": {
+      "path": "src/AKRek.Application/AKRek.Application.abppkg",
+      "folder": "src"
+    },
+    "AKRek.Application.Tests": {
+      "path": "test/AKRek.Application.Tests/AKRek.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "AKRek.Domain.Shared": {
+      "path": "src/AKRek.Domain.Shared/AKRek.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "AKRek.Application.Contracts": {
+      "path": "src/AKRek.Application.Contracts/AKRek.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "AKRek.HttpApi": {
+      "path": "src/AKRek.HttpApi/AKRek.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "AKRek.HttpApi.Client": {
+      "path": "src/AKRek.HttpApi.Client/AKRek.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "AKRek.EntityFrameworkCore.Tests": {
+      "path": "test/AKRek.EntityFrameworkCore.Tests/AKRek.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "AKRek.EntityFrameworkCore": {
+      "path": "src/AKRek.EntityFrameworkCore/AKRek.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "AKRek.TestBase": {
+      "path": "test/AKRek.TestBase/AKRek.TestBase.abppkg",
+      "folder": "test"
+    },
+    "AKRek.Domain.Tests": {
+      "path": "test/AKRek.Domain.Tests/AKRek.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "AKRek.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/AKRek.HttpApi.Client.ConsoleTestApp/AKRek.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "AKRek.DbMigrator": {
+      "path": "src/AKRek.DbMigrator/AKRek.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "AKRek.HttpApi.Host": {
+      "path": "src/AKRek.HttpApi.Host/AKRek.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "AKRek.Domain": {
+      "path": "src/AKRek.Domain/AKRek.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

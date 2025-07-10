@@ -1,0 +1,28 @@
+{
+  "Culture": "en",
+  "Texts": {
+    "Menu:Home": "Home",
+    "Welcome": "Welcome",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP. For more information, visit abp.io.",
+    "Menu:AK_Rek": "Conference",
+    "Menu:Customers": "Customers",
+    "Actions": "Actions",
+    "Close": "Close",
+    "Delete": "Delete",
+    "Edit": "Edit",
+    "PublishDate": "Publish date",
+    "NewCustomer": "New customer",
+    "Name": "Name",
+    "Surname": "Surname",
+    "Email": "Email",
+    "PhoneNumber": "Phone Number",
+    "Pnumber": "Cellular Number",
+    "Ticket": "Ticket",
+    "AreYouSure": "Are you sure?",
+    "AreYouSureToDelete": "Are you sure you want to delete this item?",
+    "Enum:TicketType.0": "Undefined",
+    "Enum:TicketType.1": "Discounted",
+    "Enum:TicketType.2": "Normal",
+    "Enum:TicketType.3": "VIP"
+  }
+}
