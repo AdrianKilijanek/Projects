@@ -1,0 +1,143 @@
+# Pliki systemowe
+.DS_Store
+Thumbs.db
+
+# Ogólne katalogi tymczasowe
+*.log
+*.tmp
+*.swp
+
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.unityproj
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Unity Asset Store
+Assets/AssetStoreTools*
+
+# Android Studio
+.gradle/
+.idea/
+local.properties
+*.iml
+build/
+captures/
+output.json
+
+
+# Pliki środowiskowe
+.env
+.env.*
+
+# Node.js
+node_modules/
+
+# Pliki binarne i archiwa
+*.apk
+*.aab
+*.ipa
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Pliki generowane przez edytory
+*.vs/
+.vscode/
+
+# --- Pliki systemowe ---
+.DS_Store
+Thumbs.db
+
+# --- Ogólne pliki tymczasowe ---
+*.log
+*.tmp
+*.swp
+
+# --- .NET / Entity Framework / ABP.io ---
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+.vscode/
+TestResults/
+*.ncrunch*
+*.localhistory/
+*.idea/
+*.dbmdl
+*.bak
+*.Backup
+*.mdf
+*.ldf
+
+# --- ABP.io specyficzne ---
+libs/
+node_modules/
+wwwroot/libs/
+wwwroot/node_modules/
+wwwroot/dist/
+wwwroot/build/
+wwwroot/*.map
+*.pidb
+*.booproj
+*.svd
+*.opendb
+*.VC.db
+
+# --- Angular ---
+/dist/
+/out-tsc/
+/node_modules/
+/coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/package-lock.json
+/yarn.lock
+/.angular/cache/
+/.angular/
+
+# --- Środowiskowe ---
+.env
+.env.*
+
+# --- Pliki IDE ---
+*.iml
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# --- Archiwa i pliki binarne ---
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.exe
+*.dll
+*.pdb
+
+# --- Inne ---
+/coverage/
+
