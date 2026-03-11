@@ -1,0 +1,104 @@
+﻿@model             Appointment
+
+@{
+    ViewData["Title"] = "Szczegóły rezerwacji";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>@ViewData["Title"]</h1>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    Rezerwacja #@Model.Id
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Data i godzina:</dt>
+                        <dd class="col-sm-9"><strong>@Model.StartAt.ToString("dd.MM.yyyy HH:mm")</strong></dd>
+
+                        <dt class="col-sm-3">Koniec wizyty:</dt>
+                        <dd class="col-sm-9">
+                            @Model.StartAt.AddMinutes(Model.DurationMinutes).ToString("HH:mm")
+                        </dd>
+
+                        <dt class="col-sm-3">Typ usługi:</dt>
+                        <dd class="col-sm-9">@Model.ServiceType.GetDisplayName()</dd>
+
+                        <dt class="col-sm-3">Imię i nazwisko:</dt>
+                        <dd class="col-sm-9">@Model.ClientName</dd>
+
+                        <dt class="col-sm-3">Email:</dt>
+                        <dd class="col-sm-9"><a href="mailto:@Model.ContactEmail">@Model.ContactEmail</a></dd>
+
+                        <dt class="col-sm-3">Telefon:</dt>
+                        <dd class="col-sm-9">@Model.ContactPhone</dd>
+
+                        <dt class="col-sm-3">Preferowana forma kontaktu:</dt>
+                        <dd class="col-sm-9">@Model.PreferredContact</dd>
+
+                        <dt class="col-sm-3">Czas trwania:</dt>
+                        <dd class="col-sm-9">@Model.DurationMinutes minut</dd>
+
+                        <dt class="col-sm-3">Cena:</dt>
+                        <dd class="col-sm-9">@Model.Price.ToString("0.00") PLN</dd>
+
+                        <dt class="col-sm-3">Status:</dt>
+                        <dd class="col-sm-9">
+                            @{
+                                string badgeClass = Model.Status switch
+                                {
+                                    AppointmentStatus.Pending => "bg-warning",
+                                    AppointmentStatus.Confirmed => "bg-success",
+                                    AppointmentStatus.Rejected => "bg-danger",
+                                    AppointmentStatus.Cancelled => "bg-secondary",
+                                    _ => "bg-info"
+                                };
+
+                                string statusText = Model.Status switch
+                                {
+                                    AppointmentStatus.Pending => "Oczekująca",
+                                    AppointmentStatus.Confirmed => "Zatwierdzona",
+                                    AppointmentStatus.Rejected => "Odrzucona",
+                                    AppointmentStatus.Cancelled => "Anulowana",
+                                    _ => "Nieznany"
+                                };
+                            }
+                            <span class="badge @badgeClass">@statusText</span>
+                        </dd>
+
+                        <dt class="col-sm-3">Uwagi:</dt>
+                        <dd class="col-sm-9">
+                            @if (!string.IsNullOrEmpty(Model.Notes))
+                            {
+                                @Model.Notes
+                            }
+                            else
+                            {
+                                <em>Brak uwag</em>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-3">Zarezerwowana:</dt>
+                        <dd class="col-sm-9">@Model.CreatedAt.ToString("dd.MM.yyyy HH:mm")</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a asp-action="Index" class="btn btn-secondary">Powrót do listy</a>
+                @if (Model.Status == AppointmentStatus.Pending ||
+                Model.Status == AppointmentStatus.Confirmed)
+                {
+                    <form asp-action="Cancel" asp-route-id="@Model.Id" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Na pewno chcesz anulować?');">
+                            Anuluj rezerwację
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+</div>

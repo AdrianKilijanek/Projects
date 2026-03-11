@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Appointment>
+
+@{
+    ViewData["Title"] = "Moje rezerwacje";
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+        <div class="col text-end">
+            <a asp-action="Create" class="btn btn-primary">+ Nowa rezerwacja</a>
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Data i godzina</th>
+                        <th>Typ wizyty</th>
+                        <th>Czas (min)</th>
+                        <th>Cena</th>
+                        <th>Status</th>
+                        <th>Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Model)
+                    {
+                        <tr>
+                            <td>
+                                <strong>@appointment.StartAt.ToString("dd.MM.yyyy HH:mm")</strong>
+                            </td>
+                            <td>@appointment.ServiceType.GetDisplayName()</td>
+                            <td>@appointment.DurationMinutes</td>
+                            <td>@appointment.Price.ToString("0.00") PLN</td>
+                            <td>
+                                @{
+                                    string badgeClass = appointment.Status switch
+                                    {
+                                        AppointmentStatus.Pending => "bg-warning",
+                                        AppointmentStatus.Confirmed => "bg-success",
+                                        AppointmentStatus.Rejected => "bg-danger",
+                                        AppointmentStatus.Cancelled => "bg-secondary",
+                                        _ => "bg-info"
+                                    };
+
+                                    string statusText = appointment.Status switch
+                                    {
+                                        AppointmentStatus.Pending => "Oczekująca",
+                                        AppointmentStatus.Confirmed => "Zatwierdzona",
+                                        AppointmentStatus.Rejected => "Odrzucona",
+                                        AppointmentStatus.Cancelled => "Anulowana",
+                                        _ => "Nieznany"
+                                    };
+                                }
+                                <span class="badge @badgeClass">@statusText</span>
+                            </td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@appointment.Id"
+                                   class="btn btn-sm btn-info">
+                                    Szczegóły
+                                </a>
+                                @if (appointment.Status == AppointmentStatus.Pending ||
+                               appointment.Status == AppointmentStatus.Confirmed)
+                                {
+                                    <form asp-action="Cancel" asp-route-id="@appointment.Id"
+                                          method="post" style="display: inline;">
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Na pewno chcesz anulować?');">
+                                            Anuluj
+                                        </button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            <p>Nie masz jeszcze żadnych rezerwacji.</p>
+            <a asp-action="Create" class="btn btn-primary">Zarezerwuj wizytę</a>
+        </div>
+    }
+</div>

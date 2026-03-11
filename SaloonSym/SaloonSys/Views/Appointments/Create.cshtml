@@ -1,0 +1,228 @@
+﻿@model Appointment
+@using SaloonSys.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Zarezerwuj wizytę";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1>@ViewData["Title"]</h1>
+            <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#calendarModal">
+    Pokaż kalendarz z wolnymi terminami
+</button>
+
+@await Html.PartialAsync("CalendarModal")
+
+            <p class="text-muted">Wypełnij formularz poniżej, aby zarezerwować wizytę u fryzjera.</p>
+
+            <form asp-action="Create" method="post" class="mt-4">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                <!-- SEKCJA: Typ i godzina usługi -->
+                <fieldset class="border border-light p-3 mb-4">
+                    <legend class="w-auto px-2">Usługa i termin</legend>
+
+                    <!-- Typ usługi -->
+                    <div class="mb-3">
+                        <label asp-for="ServiceType" class="form-label">Typ usługi *</label>
+                        <select asp-for="ServiceType" class="form-select" required>
+                            <option value="">-- Wybierz usługę --</option>
+                            <option value="1">Strzyżenie - 30 min - 59,00 PLN</option>
+                            <option value="2">Koloryzacja - 60 min - 120,00 PLN</option>
+                            <option value="3">Trwała ondulacja - 90 min - 150,00 PLN</option>
+                            <option value="4">Stylizacja - 45 min - 85,00 PLN</option>
+                            <option value="5">Terapia włosów - 30 min - 45,00 PLN</option>
+                        </select>
+                        <span asp-validation-for="ServiceType" class="text-danger"></span>
+                    </div>
+
+                    <!-- Data i godzina -->
+                    <div class="mb-3">
+                        <label asp-for="StartAt" class="form-label">Data i godzina *</label>
+                        <input asp-for="StartAt" 
+                               type="datetime-local" 
+                               class="form-control" 
+                               id="startAtInput"
+                               min=""
+                               required />
+                        <span asp-validation-for="StartAt" class="text-danger"></span>
+                        <small class="text-muted d-block mt-1">
+                            Dostępne godziny: 9:00 - 17:00, co 15 minut
+                        </small>
+                    </div>
+
+                </fieldset>
+
+                <!-- SEKCJA: Dane kontaktowe -->
+                <fieldset class="border border-light p-3 mb-4">
+                    <legend class="w-auto px-2">Dane kontaktowe</legend>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <!-- Dla zalogowanych -->
+                        <div class="alert alert-info">
+                            Jesteś zalogowany jako <strong>@user?.Email</strong>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Imię i Nazwisko</label>
+                            <input type="text" class="form-control" value="@user?.FirstName @user?.LastName" disabled>
+                            <input type="hidden" asp-for="ClientName" value="@user?.FirstName @user?.LastName">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" value="@user?.Email" disabled>
+                            <input type="hidden" asp-for="ContactEmail" value="@user?.Email">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Telefon</label>
+                            <input type="tel" class="form-control" value="@user?.PhoneNumber" disabled>
+                            <input type="hidden" asp-for="ContactPhone" value="@user?.PhoneNumber">
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Dla niezalogowanych -->
+                        <div class="alert alert-warning">
+                            Nie jesteś zalogowany. Wpisz swoje dane poniżej.
+                            <br><small><a href="/Account/Register">Zarejestruj się</a> aby zapisać dane na stałe</small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ClientName" class="form-label">Imię i Nazwisko *</label>
+                            <input asp-for="ClientName" class="form-control" required>
+                            <span asp-validation-for="ClientName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ContactEmail" class="form-label">Email *</label>
+                            <input asp-for="ContactEmail" class="form-control" type="email" required>
+                            <span asp-validation-for="ContactEmail" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ContactPhone" class="form-label">Telefon *</label>
+                            <input asp-for="ContactPhone" class="form-control" type="tel" placeholder="+48 123 456 789" required>
+                            <span asp-validation-for="ContactPhone" class="text-danger"></span>
+                        </div>
+                    }
+
+                    <!-- Preferowana forma kontaktu -->
+                    <div class="mb-3">
+                        <label asp-for="PreferredContact" class="form-label">Preferowana forma kontaktu</label>
+                        <select asp-for="PreferredContact" class="form-select">
+                            <option value="1">Email</option>
+                            <option value="2">Telefon</option>
+                            <option value="3">SMS</option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <!-- SEKCJA: Uwagi -->
+                <div class="mb-3">
+                    <label asp-for="Notes" class="form-label">Uwagi (opcjonalnie)</label>
+                    <textarea asp-for="Notes" class="form-control" rows="3" 
+                              placeholder="Np. alergia na kosmetyki, specjalne życzenia..."></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <!-- Przyciski -->
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        Zarezerwuj wizytę
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary btn-lg w-100 mt-2">
+                        Anuluj
+                    </a>
+                </div>
+            </form>
+
+            <div class="alert alert-info mt-4">
+                <strong>Info:</strong> Twoja rezerwacja będzie w stanie "Oczekująca" dopóki fryzjer jej nie zatwierdzi.
+                Otrzymasz powiadomienie na podanym adresie email lub numerze telefonu.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+@section Scripts {
+ <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const startAtInput = document.getElementById("startAtInput");
+            
+            function setDefaultDateTime() {
+                const now = new Date();
+                const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0);
+                startAtInput.value = formatDateTimeLocal(today);
+            }
+            
+            function formatDateTimeLocal(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const hours = String(date.getHours()).padStart(2, '0');
+                const minutes = String(date.getMinutes()).padStart(2, '0');
+                return `${year}-${month}-${day}T${hours}:${minutes}`;
+            }
+            
+            function setMinDateTime() {
+                const now = new Date();
+                const minDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0);
+                if (now.getHours() >= 17) {
+                    minDate.setDate(minDate.getDate() + 1);
+                }
+                startAtInput.min = formatDateTimeLocal(minDate);
+            }
+            
+            function setMaxDateTime() {
+                const maxDate = new Date();
+                maxDate.setDate(maxDate.getDate() + 90);
+                maxDate.setHours(17, 0, 0, 0);
+                startAtInput.max = formatDateTimeLocal(maxDate);
+            }
+            
+            startAtInput.addEventListener("change", function () {
+                const selected = new Date(this.value);
+                const hours = selected.getHours();
+                const minutes = selected.getMinutes();
+                
+                if (hours < 9 || hours >= 17) {
+                    alert("Pracujemy od 9:00 do 17:00!");
+                    setDefaultDateTime();
+                    return;
+                }
+                
+                if (minutes % 15 !== 0) {
+                    alert("Rezerwacje dostępne co 15 minut (9:00, 9:15, 9:30, ...)");
+                    setDefaultDateTime();
+                    return;
+                }
+                
+                if (selected < new Date()) {
+                    alert("Nie można rezerwować w przeszłości!");
+                    setDefaultDateTime();
+                    return;
+                }
+            });
+            
+            setDefaultDateTime();
+            setMinDateTime();
+            setMaxDateTime();
+        });
+    </script>
+}

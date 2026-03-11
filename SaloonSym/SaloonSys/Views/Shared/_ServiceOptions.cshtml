@@ -1,0 +1,14 @@
+﻿@{
+    var services = new[] {
+        (value: 1, name: "Strzyżenie", duration: 30, price: 59.00m),
+        (value: 2, name: "Koloryzacja", duration: 60, price: 120.00m),
+        (value: 3, name: "Trwała ondulacja", duration: 90, price: 150.00m),
+        (value: 4, name: "Stylizacja", duration: 45, price: 85.00m),
+        (value: 5, name: "Terapia włosów", duration: 30, price: 45.00m),
+    };
+}
+
+@foreach (var service in services)
+{
+    <option value="@service.value">@service.name - @service.duration min - @service.price.ToString("0.00") PLN</option>
+}

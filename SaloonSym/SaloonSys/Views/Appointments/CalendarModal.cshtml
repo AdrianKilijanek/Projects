@@ -1,0 +1,88 @@
+﻿<div class="modal fade" id="calendarModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Wybierz termin</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Data</label>
+                    <input type="date" id="selectedDate" class="form-control">
+                </div>
+                <div id="availableSlots"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const dateInput = document.getElementById('selectedDate');
+        const slotsEl = document.getElementById('availableSlots');
+        const startAtInput = document.getElementById('startAtInput');
+
+        if (!dateInput) return;
+
+        dateInput.addEventListener('change', function() {
+            console.log('Date changed:', this.value);
+            if (!this.value) return;
+            loadAvailableSlots(this.value);
+        });
+
+        function loadAvailableSlots(date) {
+            const url = `/api/appointments/available-slots?date=${date}`;
+            console.log('Fetching:', url);
+
+            fetch(url)
+                .then(r => {
+                    console.log('Response status:', r.status);
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                })
+                .then(data => {
+                    console.log('Parsed data:', data);
+
+                    if (!data.available || data.available.length === 0) {
+                        slotsEl.innerHTML = '<p class="alert alert-warning">Brak dostępnych terminów w tym dniu</p>';
+                        return;
+                    }
+
+                    let html = '<p><strong>Dostępne terminy:</strong></p>';
+                    html += '<div class="row g-2">';
+                    data.available.forEach(slot => {
+                        html += `<div class="col-md-4"><button type="button" class="btn btn-outline-primary w-100" onclick="window.selectSlot('${date}', '${slot}')">${slot}</button></div>`;
+                    });
+                    html += '</div>';
+                    slotsEl.innerHTML = html;
+                })
+                .catch(e => {
+                    console.error('Error:', e);
+                    slotsEl.innerHTML = `<p class="alert alert-danger">Błąd: ${e.message}</p>`;
+                });
+        }
+
+        window.selectSlot = function(date, time) {
+            const [hours, minutes] = time.split(':');
+            const selectedDate = new Date(date);
+            selectedDate.setHours(parseInt(hours), parseInt(minutes));
+            
+            if (startAtInput) {
+                startAtInput.value = formatDateTimeLocal(selectedDate);
+            }
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('calendarModal'));
+            if (modal) modal.hide();
+        };
+
+        function formatDateTimeLocal(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${year}-${month}-${day}T${hours}:${minutes}`;
+        }
+    });
+</script>
+
