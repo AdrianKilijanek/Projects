@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Contracts/Contracts.csproj" />
+  <Project Path="PromptApi.Tests/PromptApi.Tests.csproj" />
+  <Project Path="PromptApi/PromptApi.csproj" />
+  <Project Path="WorkerService.Tests/WorkerService.Tests.csproj" />
+  <Project Path="WorkerService/WorkerService.csproj" />
+</Solution>

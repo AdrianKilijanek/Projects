@@ -1,0 +1,15 @@
+# Foldery z plikami binarnymi – nie kopiujemy do kontekstu Docker
+**/bin/
+**/obj/
+
+# Pliki IDE
+**/.vs/
+**/.idea/
+**/*.user
+
+# Node modules (budowane w Dockerze)
+frontend/node_modules/
+frontend/.next/
+
+# Dokumentacja
+*.md

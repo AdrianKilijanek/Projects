@@ -1,0 +1,30 @@
+# ── .NET BUILD ARTIFACTS ──────────────────────────────────────────────────────
+**/bin/
+**/obj/
+*.user
+
+# ── VISUAL STUDIO / RIDER ─────────────────────────────────────────────────────
+.vs/
+.idea/
+*.suo
+*.rsuser
+
+# ── NEXT.JS / NODE ────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+
+# ── DOCKER ────────────────────────────────────────────────────────────────────
+# Obrazy i wolumeny są zarządzane przez Docker — nie trafiają do git
+
+# ── LOKALNE NARZĘDZIA ─────────────────────────────────────────────────────────
+.claude/
+
+# ── SEKRETY I KONFIGURACJA LOKALNA ────────────────────────────────────────────
+.env
+.env.local
+appsettings.Local.json
+
+# ── POKRYCIE TESTÓW ────────────────────────────────────────────────────────────
+**/TestResults/
+coverage.cobertura.xml
