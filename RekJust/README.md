@@ -1,7 +1,7 @@
-# RekJust — LLM Prompt Processor
+# RekJust LLM Prompt Processor
 
 Mikroserwisowa aplikacja do asynchronicznego przetwarzania promptów przez lokalny model AI.
-Użytkownik wysyła pytanie przez interfejs webowy — system przetwarza je w tle przez Ollama (llama3.2)
+Użytkownik wysyła pytanie przez interfejs webowy, system przetwarza je w tle przez Ollama (llama3.2)
 i wyświetla odpowiedź gdy jest gotowa. Odpowiedź z API wraca w ~200 ms, generowanie przez LLM zajmuje 2–30 sekund.
 
 ---
@@ -28,13 +28,13 @@ i wyświetla odpowiedź gdy jest gotowa. Odpowiedź z API wraca w ~200 ms, gener
 | Docker Desktop | 27.0+ | Musi być uruchomiony przed `docker compose up` |
 | .NET SDK | 10.0+ | Wymagany tylko do uruchamiania testów |
 
-**Node.js nie jest wymagany** — frontend buduje się wewnątrz Dockera.
+**Node.js nie jest wymagany** frontend buduje się wewnątrz Dockera.
 
 **Wymagania sprzętowe:** min. 8 GB RAM (model llama3.2 używa ~4 GB podczas pracy), 8 GB wolnego miejsca na dysku.
 
 ---
 
-## Uruchomienie — jednym poleceniem
+## Uruchomienie jednym poleceniem
 
 ```bash
 docker compose up --build
@@ -43,7 +43,7 @@ docker compose up --build
 Przy **pierwszym uruchomieniu** Docker pobiera obrazy bazowe (~2–4 GB) i buduje serwisy aplikacji.
 Zajmuje kilka minut. Przy **kolejnych uruchomieniach** wystarczy `docker compose up` (pomija rebuild).
 
-### Pobranie modelu AI — jednorazowo
+### Pobranie modelu AI jednorazowo
 
 Po uruchomieniu systemu otwórz drugi terminal i wykonaj:
 
@@ -51,7 +51,7 @@ Po uruchomieniu systemu otwórz drugi terminal i wykonaj:
 docker compose exec ollama ollama pull llama3.2
 ```
 
-Model (~2 GB) zapisuje się w wolumenie Docker — nie trzeba pobierać ponownie po restarcie.
+Model (~2 GB) zapisuje się w wolumenie Docker, nie trzeba pobierać ponownie po restarcie.
 
 ### Sygnał gotowości
 
@@ -96,7 +96,7 @@ Otwórz przeglądarkę: **http://localhost**
 
 ---
 
-## Architektura — przepływ danych
+## Architektura - przepływ danych
 
 ```
 Przeglądarka
@@ -280,7 +280,7 @@ docker compose restart worker-service
 
 ---
 
-### Model AI nie odpowiada — status "Błąd"
+### Model AI nie odpowiada, status "Błąd"
 
 ```bash
 # Sprawdź czy model jest pobrany
